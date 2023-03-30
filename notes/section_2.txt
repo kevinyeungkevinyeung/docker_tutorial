@@ -1,0 +1,67 @@
+image
+
+    Templates/ blueprints for containers
+
+    contains code + required tools/ runtimes
+
+    can create multiple containers with the same image
+
+containers
+
+    The running "unit of software"
+
+Finding/ creating images
+
+    docker hub
+
+    create your own, custom image   
+
+        write your own dockfile
+
+How images work?
+
+    change in the source will not be in the container, 
+    we will need to rebuild the images to include any changes in the source code
+
+    docker cache all the instruction result, docker can infer that it doesn't need to go thru the same instruction again
+    it will use the cache result, if it doesn't required to do the instruction again -- layer based architecture
+
+    if one layer is changed, then all the following layers will be re-executed
+
+Detach mode vs Attach mode
+
+    By default,
+        docker run is in attach mode
+
+        docker start is in detach mode
+
+Image Tags
+    name    
+        Defines a group of possible more specialized, images
+        i.e. "node"
+
+    Tags
+        Defines a specialized image within a group of images
+        i.e. "14"
+
+Sharing Imgaes & containers
+    Everyone who has an imgae can create container based on the image
+
+    share a dockerfile
+        simply run docker build
+
+        important: The Dockerfile instruction might need surrounding files/ folders (e.g. source code)
+
+    Share a built image
+        download an image, run a container based on it
+
+        no build step required, everything is included in the image already
+
+    Sharing via Docker hub or private registry
+        Docker hub or Private registry
+
+    Share
+        docker push IMAGE_NAME
+
+    Use 
+        docker pull IMAGE_NAME

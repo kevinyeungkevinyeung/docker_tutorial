@@ -1,11 +1,129 @@
 docker build .
-     build the image container
+    build the customer image based on Dockerfile
+    
+    build the image container
 
-docker run -p 3000:3000 9991ee1fb0072b6906474a8bd5a271075c5ced1ab57ba
+    . means the dockerfile is in the working directory
+
+    -t
+        to add a tag
+
+        docker build -t goals:123
+
+
+docker run -p 3000:80 <container id>
     run the container
+
+    3000 is the external port
+
+    80 is the internal port in the docker container
+
+    -d
+        to run the container in detach mode
+
+        docker run -p 3000:80 -d <container id>
+
+    -it
+        so the container will listen to inputs
+
+    -rm 
+        remove container if the container isn't running
+
 
 docker ps 
     get a list of containers that are running
 
+    ps = processes
+
+    -a
+        get all the container
+
 docker stop 
     stop a running container
+
+docker run node
+    run the node image if doesn't exist then download from docker hub
+
+    this create a new container
+
+    -it 
+        create a interactive session
+
+    -- rm
+        remove the container after it is stopped
+
+    -d 
+        detach mode
+
+    --name
+        naming the container
+
+docker start <docker name>
+
+    restart a existing container
+
+    by default, it runs in the background
+
+    -a -i 
+        listen to inputs
+
+
+docker attach <docker name/id>
+
+    attach a container
+
+docker logs <docker name/id>
+
+    see the logs of the container
+
+    -f 
+        attach the container again, to see future logs
+
+docker rm <docker name1> <docker name2>
+    
+    rm = remove
+
+    can't remove a running container
+
+docker images
+
+    list out all the images
+
+docker rmi <image id>
+
+    removing image
+
+    can only remove image that isn't used by an container (running or not)
+
+docker image prune
+
+    remove all the unuse images
+
+docker image inspect <image id>
+
+    inspect the information inside the image
+
+docker cp <local dir> <container name>:/<path>
+
+    docker cp dummy/. boring_vaughan:/test
+
+    docker cp boring_vaughan:/test dummy
+
+    dummy/. mean everything inside dummy folder
+
+    copy a file in local environment into the container
+
+docker push IMAGE_NAME
+    share a docker image
+
+docker pull IMAGE_NAME 
+    use a docker image
+
+docker tag <old name>:<new name>
+    change the name of a existing image
+
+docker login
+    login to docker hub
+
+-- help
+    to see all options
