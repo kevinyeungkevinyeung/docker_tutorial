@@ -1,0 +1,11 @@
+docker build .
+     build the image container
+
+docker run -p 3000:3000 9991ee1fb0072b6906474a8bd5a271075c5ced1ab57ba
+    run the container
+
+docker ps 
+    get a list of containers that are running
+
+docker stop 
+    stop a running container
