@@ -29,6 +29,11 @@ docker run -p 3000:80 <container id>
     -rm 
         remove container if the container isn't running
 
+    -v
+        <name>:<path inside the container>
+
+        create a named volume
+
 
 docker ps 
     get a list of containers that are running
@@ -125,5 +130,14 @@ docker tag <old name>:<new name>
 docker login
     login to docker hub
 
+docker volume ls
+    get a list of volume
+
+docker volume rm <volume name>
+    remove volume
+
+docker volume prune
+    remove volume
+    
 -- help
     to see all options

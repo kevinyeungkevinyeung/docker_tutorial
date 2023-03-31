@@ -1,0 +1,181 @@
+
+Managing Data in Images and Containers
+
+    Understanding different kinds of Data
+
+    Images, Containers and Volumes
+
+    Using arguments and Env. Variabbles
+
+
+Data?
+
+    Application -> code + environment
+        wriiten and provided by developer
+
+        added to image and container in build phase
+
+        "Fixed": can't be changed once image is built (image is read only)
+
+    Temporary App Data  -> user inputs
+        Fetched / Produced in running container
+
+        Stored in memory or Temporary files
+
+        Dynamic and changing but cleared regularly
+
+        Read + Write, Temporary, hence stored in containers
+
+    Permanent App Data -> user accounts
+        Fetched/ Produced in running container
+
+        Stored in files or a database
+
+        Must not be lost if container stops/ restarts
+
+        Read + Write, Permanent, stored with containers and volumes
+
+Introducing Volumes
+
+    Understanding Volumes
+        volumes are folders on your host machine hard drive which are mounted ("made available", mapped ) into containers
+
+        changes in either folder will be reflected in the other folder
+
+        Volumes persist if a container shut down. If a container (re-)starts and mounts a volume, any data inside of that volume is available in the container
+
+        A container can write data into a volume and read data from it
+
+Two Types of External Data Storages
+
+    Volumes vs Bind mounts
+
+    Volumes
+        Anoymous Volumes and named volumes
+
+        Anoymous volumes
+            remove when the container is removed
+
+        Named Volumes
+            great for data which should be persistent but which you don't need to edit directly
+
+            docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback feedback-node:volumes
+
+        Named volumes isn't attached to any volume, but Anoymous volume is attached to certain container
+
+        Docker sets up a folder/ path on your host machine, exact location is unknown to your
+        Managed via docker volume commands
+
+        Bind Mounts
+            You define a folder /path on your host machine
+
+            Greate for persistent, editable (by you) data (e.g. source code)
+
+            docker run -d -p 3000:80 --rm  --name feedback-app -v feedback:/app/feedback -v "abs path":/app feedback-node:volumes  
+
+            if we mount the local working directory, it will overwrite some of the step in the dockerfile
+
+            Overwritten
+
+                COPY package.json .
+
+                RUN npm install
+
+                COPY . .
+
+                if there are conflicts, the decision will be determined by the length of the "path" inside the docker container
+
+                docker run -d -p 3000:80 --name feedback-app -v feedback:/app/feedback -v "local abs path":/app -v /app/node_modules  feedback-node:volumes
+
+Summary: Volume & Bind Mounts
+    Anoymous volume
+        docker run -v /app/data
+
+        created specifically for a single container
+
+        survives container shutdown/ restart unless --rm is used
+
+        can not be shraed across container
+
+        since it's Anoymous, it can't be re-used (even on the same image)
+
+    Named Volume
+        docker -run -v data:/app/data
+
+        can't be created in the Dockerfiel
+
+        Created in general - not tied to any specific container
+
+        survives container shutdown/ restart - removal via Docker CLI
+
+        Can be shared across containers
+
+        Can be re-used for same container (across restarts)
+
+    Bind Mounts
+        docker run -v "local abs path":/app/code
+
+        Location on host file system, not tied to any specfic container
+
+        survives container shutdown/ restart - removal on host fs
+
+        how to delete the local file, cant be remove using docker command
+
+        can be shared across containers
+
+        can be re-used for same container (across restarts)
+
+
+Read only volume
+    by default, volume is read and write
+
+    docker run -d -p 3000:80 --name feedback-app -v feedback:/app/feedback -v "local abs path:/app:ro" -v /app/node_modules  feedback-node:volumes
+        add :ro after the bind mount operator to convert it to read only
+
+Using "COPY" vs Bind Mounts
+    Bind Mounts in this situation is for developmental use. Once the code is deploy the code will not change so we have to leave the COPY command in the Dockerfile
+
+
+.dockerignore file
+    we can specfic with file or folder should be copy into the container with the COPY command
+
+ARGuments & ENVironment Variabbles
+    Docker supports build-time ARGugments and Runtime ENVironment Variabbles
+
+    ARG
+        available inside of Dockerfile, NOT accessiable in CMD or any application code
+
+        set on image build (docker build) via --build-arg
+
+        in Dockerfile
+            ARG DEFAULT_PORT = 80
+
+        docker build -t feedback-node:dev --build-arg DEFAULT_PORT=8000
+
+
+    ENV
+        available inside of Dockerfile & in application code
+
+        Set via ENV in Dockerfile or via -- env on docker run
+
+        In Dockerfile
+            ENV PORT 80
+
+            EXPOSE $PORT
+
+            docker run -d -p 3000:80 --name feedback-app -v feedback:/app/feedback -v "local abs path:/app:ro" -v /app/node_modules  feedback-node:volumes:env
+                At :env
+
+            
+            docker run -d -p 3000:8000 --env PORT=8000 --name feedback-app -v feedback:/app/feedback -v "local abs path:/app:ro" -v /app/node_modules  feedback-node:volumes:env
+                --Env
+                    Change the port to 8000, but don't need to rebuild the container
+
+            docker run -d -p 3000:8000 --env-file ./.env --name feedback-app -v feedback:/app/feedback -v "local abs path:/app:ro" -v /app/node_modules  feedback-node:volumes:env
+                --Env-file
+                    add a .env file
+
+
+
+            
+
