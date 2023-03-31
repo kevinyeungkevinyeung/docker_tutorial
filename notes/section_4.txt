@@ -1,0 +1,27 @@
+
+Containers & Netowrks
+
+    connecting containers
+
+    out of the box, containers can connect to WWW, this doesn't require any aditional setup
+
+Connection to local service
+    replace localhost with host.docker.internal
+
+    for example:
+
+        mongodb://localhost:27017/swfavirities => mongodb://host.docker.internal:27017/swfavirities
+
+Creating Container Netowrks
+
+    allow communication between multiple containers
+
+    Can put multiple container into one network
+
+    docker run --network <my_network>
+
+    create a network
+        docker network create favorites-net
+
+        this will work if the containers is in the same network
+        mongodb://<container name>:27017/swfavirities 

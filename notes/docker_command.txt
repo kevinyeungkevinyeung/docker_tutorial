@@ -138,6 +138,12 @@ docker volume rm <volume name>
 
 docker volume prune
     remove volume
-    
+
+docker network create <network name>
+    create a network
+
+docker network ls 
+    see a list of network
+
 -- help
     to see all options
