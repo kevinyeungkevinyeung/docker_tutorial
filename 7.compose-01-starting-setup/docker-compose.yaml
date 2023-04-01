@@ -1,0 +1,43 @@
+version: "3.8"
+services: 
+  mongodb:
+    image: "mongo"
+    volumes:
+      - data:/data/db
+    # container_name: mongodb # name the container
+    env_file:
+      - ./env/mongo.env 
+    # networks:
+    #   - goals-net
+  backend:
+    build: ./backend
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile # file name
+    #   args:
+    #     - name=value
+    ports:
+      - '80:80'
+    volumes: 
+      - logs:/app/log
+      - ./backend:/app  # able to use relative path, bind mount doesn't need to be added to volumes at the end
+      - /app/node_modules # Anoymous volume doesnt need to be added to volumes at the end
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb # this service need to be run after mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true # -it flag
+    tty : true # -it flag
+    depends_on:
+      - backend
+
+volumes:
+  data:
+  logs:
+

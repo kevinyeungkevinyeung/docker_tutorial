@@ -145,5 +145,20 @@ docker network create <network name>
 docker network ls 
     see a list of network
 
+docker-compose up
+    run a docker compose file
+    
+    -d 
+        detach mode
+
+    --build
+        force docker to rebuild the image, when something is changed in the image
+
+docker-compose down 
+    stop and remove all the containers and networks
+
+    -v
+        also remove volume
+
 -- help
     to see all options

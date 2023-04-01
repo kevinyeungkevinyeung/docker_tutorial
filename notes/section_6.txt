@@ -1,0 +1,21 @@
+What is Docker Compose?
+
+    replace docker build and docker run command with one config file
+
+    Docker compose doesn't replace dockerfile for custom images
+
+    Docker Compose is not suited for managing multiple containers on different host(machines)
+
+Writing Docker Compose files
+
+    Services (containers)
+
+        published port
+
+        volumes
+
+        Netowrks
+
+        env variable
+
+    every container inside the same docker compose file will be under the same network automically 
