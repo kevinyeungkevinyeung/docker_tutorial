@@ -175,6 +175,9 @@ ARGuments & ENVironment Variabbles
                 --Env-file
                     add a .env file
 
+            in the code
+                process.env.{variable name}
+
 
 
             
